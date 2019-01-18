@@ -10,11 +10,14 @@ Furthermore, we provide a scikit-learn interface for fastText supervised learnin
 	from weightedFastText.FastTextEstimator import FastTextEstimator
 	from sklearn.model_selection import GridSearchCV,ParameterGrid
 	from tqdm import tqdm
-  
+  	
+  	# We assume that X is a list of strings, y is a numpy array of integer labels and 
+	# weights is a numpy array of real-valued that should (approximately) sum to 1
+  	
 	ft = FastTextEstimator()
 
 	params = [{"minn":[0],"maxn":[0],"epoch":[5,10,25,50],"dim":[100,200],"wordNgrams":[1,2]}] + \
-			 [{"minn":[2,3],"maxn":[4,5],"epoch":[5,10,25,50],"dim":[100,200],"wordNgrams":[1,2]}]
+		 [{"minn":[2,3],"maxn":[4,5],"epoch":[5,10,25,50],"dim":[100,200],"wordNgrams":[1,2]}]
 
 	gridsearch = GridSearchCV(ft, params, cv=2, refit=True, iid=False,verbose=0)
 
