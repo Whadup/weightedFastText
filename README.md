@@ -1,7 +1,7 @@
 # weighted fastText
 
 This is a fork of Facebook's fastText library that enables training text classifiers with weighted examples.
-To do so, every document must have a unique id ranging from 0 to N-1. This id must be present in the form `__id__{i}` similar to the label information `__label__y` in each line of the training data file.
+To do so, every document must have a unique id ranging from 0 to N-1. This id must be present in the form `__id__{i}` similar to the label information `__label__{y}` in each line of the training data file.
 The weights must be stored in the binary matrix format used by fastText and passed to the training algorithm via `-weights {weightsFile}`.
 
 # fastText
