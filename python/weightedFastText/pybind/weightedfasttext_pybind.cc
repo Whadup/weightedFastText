@@ -48,11 +48,12 @@ std::pair<std::vector<std::string>, std::vector<std::string>> getLineText(
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(fasttext_pybind, m) {
+PYBIND11_MODULE(weightedfasttext_pybind, m) {
   py::class_<fasttext::Args>(m, "args")
       .def(py::init<>())
       .def_readwrite("input", &fasttext::Args::input)
       .def_readwrite("output", &fasttext::Args::output)
+      .def_readwrite("weights", &fasttext::Args::weights)
       .def_readwrite("lr", &fasttext::Args::lr)
       .def_readwrite("lrUpdateRate", &fasttext::Args::lrUpdateRate)
       .def_readwrite("dim", &fasttext::Args::dim)

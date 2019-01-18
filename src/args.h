@@ -28,6 +28,7 @@ class Args {
   Args();
   std::string input;
   std::string output;
+  std::string weights;
   double lr;
   int lrUpdateRate;
   int dim;
@@ -45,6 +46,7 @@ class Args {
   int thread;
   double t;
   std::string label;
+  std::string id;
   int verbose;
   std::string pretrainedVectors;
   bool saveOutput;

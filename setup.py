@@ -61,9 +61,9 @@ fasttext_src_cc = list(
 
 ext_modules = [
     Extension(
-        str('fasttext_pybind'),
+        str('weightedfasttext_pybind'),
         [
-            str('python/fastText/pybind/fasttext_pybind.cc'),
+            str('python/weightedFastText/pybind/weightedfasttext_pybind.cc'),
         ] + fasttext_src_cc,
         include_dirs=[
             # Path to pybind11 headers
@@ -118,7 +118,7 @@ class BuildExt(build_ext):
 
     def build_extensions(self):
         if sys.platform == 'darwin':
-            all_flags = ['-stdlib=libc++', '-mmacosx-version-min=10.7']
+            all_flags = ['-stdlib=libc++', '-mmacosx-version-min=10.9']
             if has_flag(self.compiler, [all_flags[0]]):
                 self.c_opts['unix'] += [all_flags[0]]
             elif has_flag(self.compiler, all_flags):
@@ -130,7 +130,7 @@ class BuildExt(build_ext):
                 )
         ct = self.compiler.compiler_type
         opts = self.c_opts.get(ct, [])
-        extra_link_args = []
+        extra_link_args = ['-v']
 
         if coverage:
             coverage_option = '--coverage'
@@ -162,14 +162,14 @@ def _get_readme():
 
 
 setup(
-    name='fasttext',
+    name='weightedfasttext',
     version=__version__,
     author='Christian Puhrsch',
     author_email='cpuhrsch@fb.com',
     description='fastText Python bindings',
     long_description=_get_readme(),
     ext_modules=ext_modules,
-    url='https://github.com/facebookresearch/fastText',
+    url='https://github.com/Whadup/weightedFastText/',
     license='MIT',
     classifiers=[
         'Development Status :: 3 - Alpha',
@@ -190,9 +190,9 @@ setup(
     install_requires=['pybind11>=2.2', "setuptools >= 0.7.0", "numpy"],
     cmdclass={'build_ext': BuildExt},
     packages=[
-        str('fastText'),
-        str('fastText.util'),
-        str('fastText.tests'),
+        str('weightedFastText'),
+        str('weightedFastText.util'),
+        str('weightedFastText.tests'),
     ],
     package_dir={str(''): str('python')},
     zip_safe=False,

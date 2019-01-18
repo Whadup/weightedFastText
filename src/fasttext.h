@@ -37,6 +37,7 @@ class FastText {
 
   std::shared_ptr<Matrix> input_;
   std::shared_ptr<Matrix> output_;
+  std::shared_ptr<Matrix> weights_;
 
   std::shared_ptr<QMatrix> qinput_;
   std::shared_ptr<QMatrix> qoutput_;
@@ -157,7 +158,8 @@ class FastText {
       Model& model,
       real lr,
       const std::vector<int32_t>& line,
-      const std::vector<int32_t>& labels);
+      const std::vector<int32_t>& labels,
+      int32_t);
 
   FASTTEXT_DEPRECATED("cbow is being deprecated.")
   void cbow(Model& model, real lr, const std::vector<int32_t>& line);

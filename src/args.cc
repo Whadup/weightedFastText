@@ -33,6 +33,7 @@ Args::Args() {
   lrUpdateRate = 100;
   t = 1e-4;
   label = "__label__";
+  id = "__id__";
   verbose = 2;
   pretrainedVectors = "";
   saveOutput = false;
@@ -103,6 +104,8 @@ void Args::parseArgs(const std::vector<std::string>& args) {
         exit(EXIT_FAILURE);
       } else if (args[ai] == "-input") {
         input = std::string(args.at(ai + 1));
+      } else if (args[ai] == "-weights") {
+        weights = std::string(args.at(ai + 1));
       } else if (args[ai] == "-output") {
         output = std::string(args.at(ai + 1));
       } else if (args[ai] == "-lr") {
@@ -201,6 +204,7 @@ void Args::printHelp() {
 void Args::printBasicHelp() {
   std::cerr << "\nThe following arguments are mandatory:\n"
             << "  -input              training file path\n"
+            << "  -weights            weights file path (binary)\n"
             << "  -output             output file path\n"
             << "\nThe following arguments are optional:\n"
             << "  -verbose            verbosity level [" << verbose << "]\n";

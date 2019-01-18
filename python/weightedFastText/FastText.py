@@ -9,7 +9,7 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 
-import fasttext_pybind as fasttext
+import weightedfasttext_pybind as fasttext
 import numpy as np
 import multiprocessing
 
@@ -300,6 +300,7 @@ def _build_args(args):
     args["model"] = _parse_model_string(args["model"])
     args["loss"] = _parse_loss_string(args["loss"])
     a = fasttext.args()
+    # print(dir(a))
     for (k, v) in args.items():
         setattr(a, k, v)
     a.output = ""  # User should use save_model
@@ -322,6 +323,7 @@ def load_model(path):
 
 def train_supervised(
     input,
+    weights,
     lr=0.1,
     dim=100,
     ws=5,

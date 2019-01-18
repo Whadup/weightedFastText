@@ -31,8 +31,10 @@ struct Node {
 
 class Model {
  protected:
+  
   std::shared_ptr<Matrix> wi_;
   std::shared_ptr<Matrix> wo_;
+  std::shared_ptr<Matrix> weights_; 
   std::shared_ptr<QMatrix> qwi_;
   std::shared_ptr<QMatrix> qwo_;
   std::shared_ptr<Args> args_;
@@ -66,6 +68,7 @@ class Model {
 
  public:
   Model(
+      std::shared_ptr<Matrix>,
       std::shared_ptr<Matrix>,
       std::shared_ptr<Matrix>,
       std::shared_ptr<Args>,
@@ -102,6 +105,12 @@ class Model {
       std::vector<std::pair<real, int32_t>>&,
       Vector&,
       Vector&) const;
+  void update(
+      const std::vector<int32_t>&,
+      const std::vector<int32_t>&,
+      int32_t,
+      real,
+      int32_t);
   void update(
       const std::vector<int32_t>&,
       const std::vector<int32_t>&,
