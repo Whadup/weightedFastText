@@ -19,7 +19,7 @@ Furthermore, we provide a scikit-learn interface for fastText supervised learnin
 	gridsearch = GridSearchCV(ft, params, cv=2, refit=True, iid=False,verbose=0)
 
 	with tqdm(total=1 + gridsearch.cv * len(ParameterGrid(gridsearch.param_grid))) as pbar:
-		results = gridsearch.fit(X,y,progressbar=pbar)
+		results = gridsearch.fit(X,y,weights=weights,progressbar=pbar)
 		print(results)
 
 
