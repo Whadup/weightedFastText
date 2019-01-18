@@ -7,6 +7,22 @@ The weight for the example with `__id__i` must be stored in the i-th row of the 
 
 Furthermore, we provide a scikit-learn interface for fastText supervised learning.
 
+	from weightedFastText.FastTextEstimator import FastTextEstimator
+	from sklearn.model_selection import GridSearchCV,ParameterGrid
+	from tqdm import tqdm
+  
+	ft = FastTextEstimator()
+
+	params = [{"minn":[0],"maxn":[0],"epoch":[5,10,25,50],"dim":[100,200],"wordNgrams":[1,2]}] + \
+			 [{"minn":[2,3],"maxn":[4,5],"epoch":[5,10,25,50],"dim":[100,200],"wordNgrams":[1,2]}]
+
+	gridsearch = GridSearchCV(ft, params, cv=2, refit=True, iid=False,verbose=0)
+
+	with tqdm(total=1 + gridsearch.cv * len(ParameterGrid(gridsearch.param_grid))) as pbar:
+		results = gridsearch.fit(X,y,progressbar=pbar)
+	print(results)
+
+
 # fastText
 
 [fastText](https://fasttext.cc/) is a library for efficient learning of word representations and sentence classification.
