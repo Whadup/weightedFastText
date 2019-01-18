@@ -12,7 +12,7 @@ Furthermore, we provide a scikit-learn interface for fastText supervised learnin
 	from tqdm import tqdm
   	
   	# We assume that X is a list of strings, y is a numpy array of integer labels and 
-	# weights is a numpy array of real-valued that should (approximately) sum to 1
+	# weights is a numpy array of real-valued example weights that should (approximately) sum to 1
   	
 	ft = FastTextEstimator()
 
