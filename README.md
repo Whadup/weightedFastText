@@ -1,4 +1,11 @@
+# weighted fastText
+
+This is a fork of Facebook's fastText library that enables training text classifiers with weighted examples.
+To do so, every document must have a unique id ranging from 0 to N-1. This id must be present in the form `__id__{i}` similar to the label information `__label__{y}` in each line of the training data file.
+The weights must be stored in the binary matrix format used by fastText and passed to the training algorithm via `-weights {weightsFile}`. 
+The weight for the example with `__id__i` must be stored in the i-th row of the matrix.
 # fastText
+
 [fastText](https://fasttext.cc/) is a library for efficient learning of word representations and sentence classification.
 
 [![CircleCI](https://circleci.com/gh/facebookresearch/fastText/tree/master.svg?style=svg)](https://circleci.com/gh/facebookresearch/fastText/tree/master)
