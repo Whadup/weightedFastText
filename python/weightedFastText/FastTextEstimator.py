@@ -20,7 +20,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		if weights is None:
 			s = struct.pack('f'*len(X), *(len(X)*[1.0]))
 		else:
-			s = struct.pack('f'*len(X), *weights)
+			s = struct.pack('f'*len(X), *[len(x) * w for w in weights])
 		handleWeights.write(s)
 		handleWeights.close()
 
