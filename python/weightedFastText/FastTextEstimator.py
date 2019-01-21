@@ -44,6 +44,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			epoch=self.epoch,
 			verbose=0
 		)
+		self.num_labels = len(self._model.get_labels())
 		os.remove(handleTrain.name)
 		os.remove(handleWeights.name)
 		if progressbar is not None:
@@ -51,4 +52,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 	def predict(self,X):
 		predictions = self._model.predict(X)[0]
 		return np.array([int(x[0][len("__label__"):]) for x in predictions])
-		
+
+	def predict_proba(self,X):
+		predictions = self._model.predict(X,k=self.num_labels)[1]
+		return predictions
