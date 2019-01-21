@@ -5,3 +5,7 @@
 data
 fasttext
 result
+*.egg-info/
+build/
+dist/
+.vscode/
