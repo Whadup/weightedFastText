@@ -2,12 +2,13 @@ from sklearn.base import ClassifierMixin,BaseEstimator
 from weightedFastText import train_supervised
 import numpy as np	
 class FastTextEstimator(ClassifierMixin,BaseEstimator):
-	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100):
+	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100,verbose=0):
 		self.wordNgrams = wordNgrams
 		self.minn = minn
 		self.maxn = maxn
 		self.epoch = epoch
 		self.dim = dim
+		self.verbose = verbose
 		super(ClassifierMixin, self).__init__()
 	def fit(self,X,y,weights = None,progressbar=None):
 		import tempfile,os
@@ -42,7 +43,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			minn = self.minn,
 			maxn = self.maxn,
 			epoch=self.epoch,
-			verbose=0
+			verbose=self.verbose
 		)
 		self.num_labels = len(self._model.get_labels())
 		os.remove(handleTrain.name)
