@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <stdexcept>
-
+#include <iostream>
 namespace fasttext {
 
 constexpr int64_t SIGMOID_TABLE_SIZE = 512;
@@ -307,8 +307,13 @@ void Model::update(
 	if (args_->model == model_name::sup) {
 		grad_.mul(1.0 / input.size());
 	}
-	for (auto it = input.cbegin(); it != input.cend(); ++it) {
-		wi_->addRow(grad_, *it, 1.0);
+	if(nexamples_==10000)
+		std::cout << "START TO TRAIN THE EMBEDDINGS;" << std::endl;
+	if(nexamples_>10000)
+	{
+		for (auto it = input.cbegin(); it != input.cend(); ++it) {
+			wi_->addRow(grad_, *it, 1.0);
+		}
 	}
 }
 
@@ -336,8 +341,13 @@ void Model::update(
 	if (args_->model == model_name::sup) {
 		grad_.mul(1.0 / input.size());
 	}
-	for (auto it = input.cbegin(); it != input.cend(); ++it) {
-		wi_->addRow(grad_, *it, 1.0);
+	if(nexamples_==1000000)
+		std::cout << "START TO TRAIN THE EMBEDDINGS;" << std::endl;
+	if(nexamples_>1000000)
+	{
+		for (auto it = input.cbegin(); it != input.cend(); ++it) {
+			wi_->addRow(grad_, *it, 1.0);
+		}
 	}
 }
 

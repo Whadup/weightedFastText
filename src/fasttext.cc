@@ -679,6 +679,7 @@ void FastText::loadVectors(const std::string& filename) {
 		throw std::invalid_argument(filename + " cannot be opened for loading!");
 	}
 	in >> n >> dim;
+	std::cerr << "Trying to load precomputed stuff " << n << " " << dim << std::endl;
 	if (dim != args_->dim) {
 		throw std::invalid_argument(
 				"Dimension of pretrained vectors (" + std::to_string(dim) +
@@ -688,14 +689,18 @@ void FastText::loadVectors(const std::string& filename) {
 	for (size_t i = 0; i < n; i++) {
 		std::string word;
 		in >> word;
+		// std::cout << word << "!";
 		words.push_back(word);
 		dict_->add(word);
+		// std::cerr << i << ":" << dict_->nwords() << " ";
+		// if(i%100==99)
+		// 	std::cerr << std::endl;
 		for (size_t j = 0; j < dim; j++) {
 			in >> mat->at(i, j);
 		}
 	}
 	in.close();
-
+	std::cerr << dict_->nwords() << std::endl;
 	dict_->threshold(1, 0);
 	dict_->init();
 	input_ =

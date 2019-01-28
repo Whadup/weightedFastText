@@ -26,6 +26,12 @@ Furthermore, we provide a scikit-learn interface for fastText supervised learnin
 		print(results)
 
 
+To compile this on my mac, I need to set
+
+    export MACOSX_DEPLOYMENT_TARGET=10.9
+
+but maybe that's just me...
+
 # fastText
 
 [fastText](https://fasttext.cc/) is a library for efficient learning of word representations and sentence classification.
