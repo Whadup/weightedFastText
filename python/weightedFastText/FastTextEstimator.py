@@ -19,7 +19,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		handleWeights = tempfile.NamedTemporaryFile(mode="wb",delete = False)	
 		s = struct.pack('ll',len(X),1)
 		handleWeights.write(s)
-		if weights is None:
+		if sample_weights is None:
 			s = struct.pack('f'*len(X), *(len(X)*[1.0]))
 		else:
 			s = struct.pack('f'*len(X), *[len(X) * w for w in weights])
