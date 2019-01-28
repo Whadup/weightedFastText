@@ -11,7 +11,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		self.verbose = verbose
 		self.pretrainedVectors = pretrained
 		super(ClassifierMixin, self).__init__()
-	def fit(self,X,y,sample_weights = None,progressbar=None):
+	def fit(self,X,y,sample_weight = None,progressbar=None):
 		import tempfile,os
 
 		# Write Weights to Binary File for FastText
@@ -19,10 +19,10 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		handleWeights = tempfile.NamedTemporaryFile(mode="wb",delete = False)	
 		s = struct.pack('ll',len(X),1)
 		handleWeights.write(s)
-		if sample_weights is None:
+		if sample_weight is None:
 			s = struct.pack('f'*len(X), *(len(X)*[1.0]))
 		else:
-			s = struct.pack('f'*len(X), *[len(X) * w for w in weights])
+			s = struct.pack('f'*len(X), *[len(X) * w for w in sample_weight])
 		handleWeights.write(s)
 		handleWeights.close()
 
