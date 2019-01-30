@@ -718,7 +718,7 @@ void FastText::loadVectors(const std::string& filename) {
 		}
 	}
 	in.close();
-	std::cerr << dict_->nwords() << std::endl;
+	// std::cerr << dict_->nwords() << std::endl;
 	dict_->threshold(1, 0);
 	dict_->init();
 	input_ =
