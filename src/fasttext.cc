@@ -45,7 +45,7 @@ const Args FastText::getArgs() const {
 	return *args_.get();
 }
 
-std::shared_ptr<const Matrix> FastText::getInputMatrix() const {
+std::shared_ptr<Matrix> FastText::getInputMatrix() {
 	return input_;
 }
 
@@ -687,16 +687,34 @@ void FastText::loadVectors(const std::string& filename) {
 	}
 	mat = std::make_shared<Matrix>(n, dim);
 	for (size_t i = 0; i < n; i++) {
-		std::string word;
-		in >> word;
-		// std::cout << word << "!";
-		words.push_back(word);
-		dict_->add(word);
-		// std::cerr << i << ":" << dict_->nwords() << " ";
-		// if(i%100==99)
-		// 	std::cerr << std::endl;
-		for (size_t j = 0; j < dim; j++) {
-			in >> mat->at(i, j);
+		std::string line;
+		std::getline(in, line);
+		if(line.size()>0)
+		{
+			std::string word;
+			std::string entry;
+			std::stringstream ss(line);
+			for(int j=0;j < args_->dim + 1; j++)
+			{
+				std::getline(ss, entry, ' ');
+				if(j==0)
+				{
+					word = entry;
+					words.push_back(word);
+					dict_->add(word);
+				}
+				else
+				{
+					try
+					{
+						mat->at(i, j-1) = std::stod(entry.c_str());
+					}
+					catch(const std::exception& e)
+					{
+						std::cerr << "could not load "<< word << " " <<  entry << std::endl;
+					}
+				}
+			}
 		}
 	}
 	in.close();
@@ -764,6 +782,7 @@ void FastText::train(const Args& args) {
 		model_->setTargetCounts(dict_->getCounts(entry_type::word));
 	}
 }
+
 
 void FastText::startThreads() {
 	start_ = std::chrono::steady_clock::now();
