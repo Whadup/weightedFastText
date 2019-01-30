@@ -679,7 +679,7 @@ void FastText::loadVectors(const std::string& filename) {
 		throw std::invalid_argument(filename + " cannot be opened for loading!");
 	}
 	in >> n >> dim;
-	std::cerr << "Trying to load precomputed stuff " << n << " " << dim << std::endl;
+	// std::cerr << "Trying to load precomputed stuff " << n << " " << dim << std::endl;
 	if (dim != args_->dim) {
 		throw std::invalid_argument(
 				"Dimension of pretrained vectors (" + std::to_string(dim) +
