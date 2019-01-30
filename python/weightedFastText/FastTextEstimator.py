@@ -35,7 +35,6 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		handleTrain.close()
 		# handleTrial.close()
 		# print(self.get_params())
-		print("now we train")
 		self._model = train_supervised(
 			input  = handleTrain.name,
 			weights = handleWeights.name,
@@ -66,7 +65,6 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		# s4 = np.sqrt(s4squared)
 		# # print(s4)
 
-		print("now we retrain")
 		self._model = retrain_supervised(
 			self._model,
 			input  = handleTrain.name,
