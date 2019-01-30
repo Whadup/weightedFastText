@@ -45,6 +45,7 @@ class Matrix {
   inline real& at(int64_t i, int64_t j) {
     return data_[i * n_ + j];
   };
+  
 
   inline int64_t size(int64_t dim) const {
     assert(dim == 0 || dim == 1);
@@ -72,7 +73,7 @@ class Matrix {
 
   void save(std::ostream&);
   void load(std::istream&);
-
+  void load(real*);
   void dump(std::ostream&) const;
 };
 } // namespace fasttext

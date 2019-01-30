@@ -61,7 +61,8 @@ void Dictionary::add(const std::string& w) {
 	int32_t h = find(w);
 	// std::cerr << w << "=" << h << " ";
 	ntokens_++;
-	if (word2int_[h] == -1) {
+	if (word2int_[h] == -1) { //?
+		// std::cout << "new " << w << std::endl;
 		entry e;
 		e.word = w;
 		e.count = 1;
@@ -280,6 +281,7 @@ void Dictionary::threshold(int64_t t, int64_t tl) {
 		}
 		return e1.count > e2.count;
 	});
+	std::cerr << "vor" << words_.size() << std::endl;
 	words_.erase(
 			remove_if(
 					words_.begin(),
@@ -289,9 +291,12 @@ void Dictionary::threshold(int64_t t, int64_t tl) {
 								(e.type == entry_type::label && e.count < tl);
 					}),
 			words_.end());
+	std::cerr << "nach" << words_.size() << std::endl;
 	words_.shrink_to_fit();
+	std::cerr << "nach" << words_.size() << std::endl;
 	size_ = 0;
 	nwords_ = 0;
+	nids_ = 0;
 	nlabels_ = 0;
 	std::fill(word2int_.begin(), word2int_.end(), -1);
 	for (auto it = words_.begin(); it != words_.end(); ++it) {

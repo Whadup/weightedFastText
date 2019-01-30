@@ -11,6 +11,7 @@
 #include <matrix.h>
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/numpy.h>
 #include <real.h>
 #include <vector.h>
 #include <cmath>
@@ -98,7 +99,10 @@ PYBIND11_MODULE(weightedfasttext_pybind, m) {
       "train",
       [](fasttext::FastText& ft, fasttext::Args& a) { ft.train(a); },
       py::call_guard<py::gil_scoped_release>());
-
+  m.def(
+      "retrain",
+      [](fasttext::FastText& ft, fasttext::Args& a) { ft.retrain(a); },
+      py::call_guard<py::gil_scoped_release>());
   py::class_<fasttext::Vector>(m, "Vector", py::buffer_protocol())
       .def(py::init<ssize_t>())
       .def_buffer([](fasttext::Vector& m) -> py::buffer_info {
@@ -132,15 +136,21 @@ PYBIND11_MODULE(weightedfasttext_pybind, m) {
       .def(
           "getInputMatrix",
           [](fasttext::FastText& m) {
-            std::shared_ptr<const fasttext::Matrix> mm = m.getInputMatrix();
-            return *mm.get();
+            //  return m.getInputMatrix();
+             std::shared_ptr<const fasttext::Matrix> mm = m.getInputMatrix();
+             return *mm.get();
           })
+      .def(
+        "setInputAt",
+        [](fasttext::FastText& m,int i, int j, fasttext::real d) {
+            m.getInputMatrix()->at(i,j)=d;
+      })
       .def(
           "getOutputMatrix",
           [](fasttext::FastText& m) {
             std::shared_ptr<const fasttext::Matrix> mm = m.getOutputMatrix();
             return *mm.get();
-          })
+          }) 
       .def(
           "loadModel",
           [](fasttext::FastText& m, std::string s) { m.loadModel(s); })

@@ -10,6 +10,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 from .FastText import train_supervised
+from .FastText import retrain_supervised
 from .FastText import train_unsupervised
 from .FastText import load_model
 from .FastText import tokenize

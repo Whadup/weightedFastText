@@ -149,8 +149,10 @@ class _FastText():
         """
         if self.f.isQuant():
             raise ValueError("Can't get quantized Matrix")
-        return np.array(self.f.getInputMatrix())
+        return np.array(self.f.getInputMatrix(),copy=False)
 
+    def set_input_at(self,i,j,d):
+        self.f.setInputAt(i,j,d)
     def get_output_matrix(self):
         """
         Get a copy of the full output matrix of a Model. This only
@@ -361,6 +363,48 @@ def train_supervised(
     fasttext.train(ft.f, a)
     return ft
 
+def retrain_supervised(
+    ft,
+    input,
+    weights,
+    lr=0.1,
+    dim=100,
+    ws=5,
+    epoch=5,
+    minCount=1,
+    minCountLabel=0,
+    minn=0,
+    maxn=0,
+    neg=5,
+    wordNgrams=1,
+    loss="softmax",
+    bucket=2000000,
+    thread=multiprocessing.cpu_count() - 1,
+    lrUpdateRate=100,
+    t=1e-4,
+    label="__label__",
+    verbose=2,
+    pretrainedVectors="",
+):
+    """
+    Train a supervised model and return a model object.
+
+    input must be a filepath. The input text does not need to be tokenized
+    as per the tokenize function, but it must be preprocessed and encoded
+    as UTF-8. You might want to consult standard preprocessing scripts such
+    as tokenizer.perl mentioned here: http://www.statmt.org/wmt07/baseline.html
+
+    The input file must must contain at least one label per line. For an
+    example consult the example datasets which are part of the fastText
+    repository such as the dataset pulled by classification-example.sh.
+    """
+    model = "supervised"
+    l = locals()
+    del l["ft"]
+    a = _build_args(l)
+    
+    fasttext.retrain(ft.f, a)
+    return ft
 
 def train_unsupervised(
     input,

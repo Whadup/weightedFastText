@@ -1,5 +1,5 @@
 from sklearn.base import ClassifierMixin,BaseEstimator
-from weightedFastText import train_supervised
+from weightedFastText import train_supervised,retrain_supervised
 import numpy as np	
 class FastTextEstimator(ClassifierMixin,BaseEstimator):
 	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100,verbose=0,pretrained=""):
@@ -35,6 +35,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		handleTrain.close()
 		# handleTrial.close()
 		# print(self.get_params())
+		print("now we train")
 		self._model = train_supervised(
 			input  = handleTrain.name,
 			weights = handleWeights.name,
@@ -43,9 +44,41 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			wordNgrams=self.wordNgrams,
 			minn = self.minn,
 			maxn = self.maxn,
-			epoch = self.epoch,
+			minCount = 0,
+			epoch = 0,
 			verbose=self.verbose,
 			pretrainedVectors = self.pretrainedVectors
+		)
+		self.X = self._model.get_input_matrix()
+		right = self.X.transpose().dot(self.X)
+		s4squared,U = np.linalg.eig(right)
+		s4 = np.sqrt(s4squared)
+		print(s4)
+		init = self.X.dot(U.dot(np.diag(3.0/s4)).dot(U.transpose()))
+		print(len(self.X),self.X.shape)
+		for i in range(len(self.X)):
+			for j in range(self.dim):
+				self._model.set_input_at(i,j,init[i,j])
+
+		self.X = self._model.get_input_matrix()
+		right = self.X.transpose().dot(self.X)
+		s4squared,U = np.linalg.eig(right)
+		s4 = np.sqrt(s4squared)
+		# print(s4)
+
+		print("now we retrain")
+		self._model = retrain_supervised(
+			self._model,
+			input  = handleTrain.name,
+			weights = handleWeights.name,
+			loss   = 'softmax',
+			dim = self.dim,
+			wordNgrams=self.wordNgrams,
+			minn = self.minn,
+			maxn = self.maxn,
+			epoch = self.epoch,
+			minCount  = 0,
+			verbose=self.verbose,
 		)
 		self.num_labels = len(self._model.get_labels())
 		os.remove(handleTrain.name)

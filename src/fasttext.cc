@@ -783,6 +783,23 @@ void FastText::train(const Args& args) {
 	}
 }
 
+void FastText::retrain(const Args& args)
+{	
+	args_ = std::make_shared<Args>(args);
+	if (args_->model == model_name::sup) {
+		output_ = std::make_shared<Matrix>(dict_->nlabels(), args_->dim);
+	} else {
+		output_ = std::make_shared<Matrix>(dict_->nwords(), args_->dim);
+	}
+	output_->zero();
+	startThreads();
+	model_ = std::make_shared<Model>(input_, output_, weights_, args_, 0);
+	if (args_->model == model_name::sup) {
+		model_->setTargetCounts(dict_->getCounts(entry_type::label));
+	} else {
+		model_->setTargetCounts(dict_->getCounts(entry_type::word));
+	}
+}
 
 void FastText::startThreads() {
 	start_ = std::chrono::steady_clock::now();

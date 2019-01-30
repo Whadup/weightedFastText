@@ -85,7 +85,7 @@ class FastText {
 
   std::shared_ptr<const Dictionary> getDictionary() const;
 
-  std::shared_ptr<const Matrix> getInputMatrix() const;
+  std::shared_ptr<Matrix> getInputMatrix();
 
   std::shared_ptr<const Matrix> getOutputMatrix() const;
 
@@ -134,6 +134,7 @@ class FastText {
       const std::string& wordC);
 
   void train(const Args& args);
+  void retrain(const Args& args);
 
   void loadVectors(const std::string& filename);
 
