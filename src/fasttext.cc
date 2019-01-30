@@ -761,7 +761,7 @@ void FastText::train(const Args& args) {
 	// weights_->load(0);
 	if (args_->pretrainedVectors.size() != 0) {
 		loadVectors(args_->pretrainedVectors);
-		std::cerr << "Number of words:  " << dict_->nwords() << std::endl;
+		// std::cerr << "Number of words:  " << dict_->nwords() << std::endl;
 	} else {
 		input_ =
 				std::make_shared<Matrix>(dict_->nwords() + args_->bucket, args_->dim);
