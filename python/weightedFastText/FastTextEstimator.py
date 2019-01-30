@@ -44,7 +44,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			minn = self.minn,
 			maxn = self.maxn,
 			minCount = 0,
-			epoch = 0,
+			epoch = self.epoch,
 			verbose=self.verbose,
 			pretrainedVectors = self.pretrainedVectors
 		)
@@ -65,19 +65,19 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		# s4 = np.sqrt(s4squared)
 		# # print(s4)
 
-		self._model = retrain_supervised(
-			self._model,
-			input  = handleTrain.name,
-			weights = handleWeights.name,
-			loss   = 'softmax',
-			dim = self.dim,
-			wordNgrams=self.wordNgrams,
-			minn = self.minn,
-			maxn = self.maxn,
-			epoch = self.epoch,
-			minCount  = 0,
-			verbose=self.verbose,
-		)
+		# self._model = retrain_supervised(
+		# 	self._model,
+		# 	input  = handleTrain.name,
+		# 	weights = handleWeights.name,
+		# 	loss   = 'softmax',
+		# 	dim = self.dim,
+		# 	wordNgrams=self.wordNgrams,
+		# 	minn = self.minn,
+		# 	maxn = self.maxn,
+		# 	epoch = self.epoch,
+		# 	minCount  = 0,
+		# 	verbose=self.verbose,
+		# )
 		self.num_labels = len(self._model.get_labels())
 		os.remove(handleTrain.name)
 		os.remove(handleWeights.name)
