@@ -49,22 +49,22 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			verbose=self.verbose,
 			pretrainedVectors = self.pretrainedVectors
 		)
-		self.X = self._model.get_input_matrix()
-		right = self.X.transpose().dot(self.X)
-		s4squared,U = np.linalg.eig(right)
-		s4 = np.sqrt(s4squared)
-		print(s4)
-		init = self.X.dot(U.dot(np.diag(3.0/s4)).dot(U.transpose()))
-		print(len(self.X),self.X.shape)
-		for i in range(len(self.X)):
-			for j in range(self.dim):
-				self._model.set_input_at(i,j,init[i,j])
-
-		self.X = self._model.get_input_matrix()
-		right = self.X.transpose().dot(self.X)
-		s4squared,U = np.linalg.eig(right)
-		s4 = np.sqrt(s4squared)
+		# self.X = self._model.get_input_matrix()
+		# right = self.X.transpose().dot(self.X)
+		# s4squared,U = np.linalg.eig(right)
+		# s4 = np.sqrt(s4squared)
 		# print(s4)
+		# init = self.X.dot(U.dot(np.diag(3.0/s4)).dot(U.transpose()))
+		# print(len(self.X),self.X.shape)
+		# for i in range(len(self.X)):
+		# 	for j in range(self.dim):
+		# 		self._model.set_input_at(i,j,init[i,j])
+
+		# self.X = self._model.get_input_matrix()
+		# right = self.X.transpose().dot(self.X)
+		# s4squared,U = np.linalg.eig(right)
+		# s4 = np.sqrt(s4squared)
+		# # print(s4)
 
 		print("now we retrain")
 		self._model = retrain_supervised(
