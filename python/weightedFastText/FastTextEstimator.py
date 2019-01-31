@@ -11,6 +11,8 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		self.verbose = verbose
 		self.pretrainedVectors = pretrainedVectors
 		super(ClassifierMixin, self).__init__()
+
+		
 	def fit(self,X,y,sample_weight = None,progressbar=None):
 		import tempfile,os
 

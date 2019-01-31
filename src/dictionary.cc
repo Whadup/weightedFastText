@@ -31,7 +31,9 @@ Dictionary::Dictionary(std::shared_ptr<Args> args)
 			nlabels_(0),
 			ntokens_(0),
 			nids_(0),
-			pruneidx_size_(-1) {}
+			pruneidx_size_(-1) {
+				std::fill(word2int_.begin(), word2int_.end(), -1);
+			}
 
 Dictionary::Dictionary(std::shared_ptr<Args> args, std::istream& in)
 		: args_(args),

@@ -678,8 +678,11 @@ void FastText::loadVectors(const std::string& filename) {
 	if (!in.is_open()) {
 		throw std::invalid_argument(filename + " cannot be opened for loading!");
 	}
+	
 	in >> n >> dim;
-	// std::cerr << "Trying to load precomputed stuff " << n << " " << dim << std::endl;
+	std::string line;
+	std::getline(in, line);
+	std::cerr << "Trying to load precomputed stuff " << n << " " << dim << std::endl;
 	if (dim != args_->dim) {
 		throw std::invalid_argument(
 				"Dimension of pretrained vectors (" + std::to_string(dim) +
@@ -687,7 +690,6 @@ void FastText::loadVectors(const std::string& filename) {
 	}
 	mat = std::make_shared<Matrix>(n, dim);
 	for (size_t i = 0; i < n; i++) {
-		std::string line;
 		std::getline(in, line);
 		if(line.size()>0)
 		{
@@ -715,6 +717,9 @@ void FastText::loadVectors(const std::string& filename) {
 					}
 				}
 			}
+		}
+		else{
+			std::cerr << "could not load "<< line << i << std::endl;
 		}
 	}
 	in.close();
