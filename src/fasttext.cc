@@ -713,12 +713,13 @@ void FastText::loadVectors(const std::string& filename) {
 					}
 					catch(const std::exception& e)
 					{
-						std::cerr << "could not load "<< word << " " <<  entry << std::endl;
+						std::cerr << "could not load "<< word << " " <<  entry << " " << i << std::endl;
 					}
 				}
 			}
 		}
-		else{
+		else
+		{
 			std::cerr << "could not load "<< line << i << std::endl;
 		}
 	}

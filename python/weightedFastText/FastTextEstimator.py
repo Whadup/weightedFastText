@@ -12,7 +12,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		self.pretrainedVectors = pretrainedVectors
 		super(ClassifierMixin, self).__init__()
 
-		
+
 	def fit(self,X,y,sample_weight = None,progressbar=None):
 		import tempfile,os
 
@@ -90,5 +90,9 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		return np.array([int(x[0][len("__label__"):]) for x in predictions])
 
 	def predict_proba(self,X):
-		predictions = self._model.predict(X,k=self.num_labels)[1]
-		return predictions
+		predictions = self._model.predict(X,k=self.num_labels)
+		print(predictions[0][:10],predictions[1][:10])
+		classes = np.array([[int(y[len("__label__"):]) for y in x] for x in predictions[0]])
+		order = np.argsort(classes,axis=1)
+		print(order[:10])
+		return np.array([predictions[1][i,x] for i,x in enumerate(order)])
