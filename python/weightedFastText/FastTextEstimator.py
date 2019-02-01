@@ -91,8 +91,8 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 
 	def predict_proba(self,X):
 		predictions = self._model.predict(X,k=self.num_labels)
-		print(predictions[0][:10],predictions[1][:10])
+		# print(predictions[0][:10],predictions[1][:10])
 		classes = np.array([[int(y[len("__label__"):]) for y in x] for x in predictions[0]])
 		order = np.argsort(classes,axis=1)
-		print(order[:10])
+		# print(order[:10])
 		return np.array([predictions[1][i,x] for i,x in enumerate(order)])
