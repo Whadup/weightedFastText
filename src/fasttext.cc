@@ -203,6 +203,7 @@ void FastText::loadModel(const std::string& filename) {
 void FastText::loadModel(std::istream& in) {
 	args_ = std::make_shared<Args>();
 	input_ = std::make_shared<Matrix>();
+	weights_ = std::make_shared<Matrix>();
 	output_ = std::make_shared<Matrix>();
 	qinput_ = std::make_shared<QMatrix>();
 	qoutput_ = std::make_shared<QMatrix>();
@@ -236,7 +237,7 @@ void FastText::loadModel(std::istream& in) {
 		output_->load(in);
 	}
 
-	// model_ = std::make_shared<Model>(input_, output_, , args_, 0);
+	model_ = std::make_shared<Model>(input_, output_, weights_, args_, 0);
 	model_->quant_ = quant_;
 	model_->setQuantizePointer(qinput_, qoutput_, args_->qout);
 

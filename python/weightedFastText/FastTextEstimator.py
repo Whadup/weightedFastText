@@ -1,5 +1,5 @@
 from sklearn.base import ClassifierMixin,BaseEstimator
-from weightedFastText import train_supervised,retrain_supervised
+from weightedFastText import train_supervised,retrain_supervised,load_model
 import numpy as np	
 class FastTextEstimator(ClassifierMixin,BaseEstimator):
 	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100,verbose=0,pretrainedVectors=""):
@@ -96,3 +96,34 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		order = np.argsort(classes,axis=1)
 		# print(order[:10])
 		return np.array([predictions[1][i,x] for i,x in enumerate(order)])
+
+	def __getstate__(self):
+		re = self.__dict__()
+		del re["_model"]
+		handleModel = tempfile.NamedTemporaryFile(mode="w+b",delete = False)
+		self._model.save_model(handleModel.name)
+		handleModel.seek(0)
+		re["_model"] = handleModel.read()
+		print(re)
+		return re
+	
+	# Make sure we can pickle this stuff
+	def __getstate__(self):
+		import tempfile,os		
+		re = self.__dict__
+		handleModel = tempfile.NamedTemporaryFile(mode="w+b",delete = False)
+		self._model.save_model(handleModel.name)
+		handleModel.seek(0)
+		re["_model"] = handleModel.read()
+		os.remove(handleModel.name)
+		return re
+
+	#make sure we can unpickle this stuff.
+	def __setstate__(self,state):
+		import tempfile,os		
+		handleModel = tempfile.NamedTemporaryFile(mode="w+b",delete = False)
+		handleModel.write(state["_model"])
+		state["_model"] = load_model(handleModel.name)
+		os.remove(handleModel.name)
+		super(FastTextEstimator, self).__setstate__(state)
+		
