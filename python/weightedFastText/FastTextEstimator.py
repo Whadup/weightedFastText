@@ -2,13 +2,14 @@ from sklearn.base import ClassifierMixin,BaseEstimator
 from weightedFastText import train_supervised,retrain_supervised,load_model
 import numpy as np	
 class FastTextEstimator(ClassifierMixin,BaseEstimator):
-	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100,verbose=0,pretrainedVectors=""):
+	def __init__(self,wordNgrams=1,minn=0,maxn=0,epoch=10,dim=100,verbose=0,pretrainedVectors="",n_jobs=12):
 		self.wordNgrams = wordNgrams
 		self.minn = minn
 		self.maxn = maxn
 		self.epoch = epoch
 		self.dim = dim
 		self.verbose = verbose
+		self.n_jobs = n_jobs
 		self.pretrainedVectors = pretrainedVectors
 		super(ClassifierMixin, self).__init__()
 
@@ -48,6 +49,7 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 			minCount = 0,
 			epoch = self.epoch,
 			verbose=self.verbose,
+			thread = self.n_jobs,
 			pretrainedVectors = self.pretrainedVectors
 		)
 		# self.X = self._model.get_input_matrix()
@@ -96,6 +98,9 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 		order = np.argsort(classes,axis=1)
 		# print(order[:10])
 		return np.array([predictions[1][i,x] for i,x in enumerate(order)])
+
+	def embed(self,X):
+		return [self._model.get_sentence_vector(x) for x in X]
 
 	def __getstate__(self):
 		re = self.__dict__()
