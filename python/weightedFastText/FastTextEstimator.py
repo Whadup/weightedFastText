@@ -31,7 +31,8 @@ class FastTextEstimator(ClassifierMixin,BaseEstimator):
 
 		handleTrain = tempfile.NamedTemporaryFile(mode="w",delete = False)	
 		traindocs = [x+" __label__"+str(y[i])+" __id__"+str(i) for i,x in enumerate(X)]
-		from random import shuffle
+		from random import shuffle,seed
+		seed(1)
 		shuffle(traindocs)
 		for d in traindocs:
 			handleTrain.write(d+"\n")
