@@ -452,7 +452,7 @@ int32_t Dictionary::getLine(
 			addSubwords(words, token, wid);
 			word_hashes.push_back(h);
 		} else if (type == entry_type::label && wid >= 0) {
-			std::cout << token << " " << wid - nwords_ << std::endl;
+			// std::cout << token << " " << wid - nwords_ << std::endl;
 
 			labels.push_back(wid - nwords_);
 		}
