@@ -312,6 +312,7 @@ void Dictionary::threshold(int64_t t, int64_t tl) {
 			nids_++;
 		}
 	}
+	// std::cout << "NUM_IDs" << nids_ << std::endl;
 }
 
 void Dictionary::initTableDiscard() {
@@ -451,10 +452,16 @@ int32_t Dictionary::getLine(
 			addSubwords(words, token, wid);
 			word_hashes.push_back(h);
 		} else if (type == entry_type::label && wid >= 0) {
+			std::cout << token << " " << wid - nwords_ << std::endl;
+
 			labels.push_back(wid - nwords_);
 		}
 		else if (type == entry_type::id && wid >= 0) {
 			id = wid - nwords_ - nlabels_;
+			token.erase(0, 6); 
+			// std::cout << token << std::flush;
+			id = std::stoi(token);
+			// std::cout << " " << id << std::endl;
 		}
 		if (token == EOS) {
 			break;

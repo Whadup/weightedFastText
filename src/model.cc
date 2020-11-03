@@ -328,6 +328,7 @@ void Model::update(
 	}
 	computeHidden(input, hidden_);
 	real weight = weights_->at(id,0);
+	// std::cout << "weighted" << weight << " " <<id << std::endl;
 	if (targetIndex == kAllLabelsAsTarget) {
 		loss_ += computeLoss(targets, -1, lr*weight);
 	} else {
