@@ -114,9 +114,14 @@ void Model::computeOutputSoftmax(Vector& hidden, Vector& output) const {
 		max = std::max(output[i], max);
 	}
 	for (int32_t i = 0; i < osz_; i++) {
+		// std::cout << output[i] << ":";
 		output[i] = exp(output[i] - max);
 		z += output[i];
+		// std::cout << output[i] << " ";
+		
 	}
+
+	// std::cout << z << std::endl;
 	for (int32_t i = 0; i < osz_; i++) {
 		output[i] /= z;
 	}

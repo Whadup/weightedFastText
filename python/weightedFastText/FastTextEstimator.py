@@ -34,6 +34,7 @@ class FastTextEstimator(ClassifierMixin, BaseEstimator):
 		if sample_weight is None:
 			s = struct.pack('f' * len(X), *(len(X) * [1.0]))
 		else:
+			sample_weight = sample_weight / np.sum(sample_weight)
 			s = struct.pack('f' * len(X), *[len(X) * w for w in sample_weight])
 		handleWeights.write(s)
 		handleWeights.close()
