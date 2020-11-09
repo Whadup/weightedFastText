@@ -634,7 +634,7 @@ void FastText::trainThread(int32_t threadId) {
 	std::ifstream ifs(args_->input);
 	utils::seek(ifs, threadId * utils::size(ifs) / args_->thread);
 
-	Model model(input_, output_, weights_, args_, threadId);
+	Model model(input_, output_, weights_, args_, 0);
 	if (args_->model == model_name::sup) {
 		model.setTargetCounts(dict_->getCounts(entry_type::label));
 	} else {

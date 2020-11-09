@@ -34,8 +34,8 @@ class FastTextEstimator(ClassifierMixin, BaseEstimator):
         if sample_weight is None:
             s = struct.pack('f' * len(X), *(len(X) * [1.0]))
         else:
-            sample_weight = 1.0 * sample_weight / np.sum(sample_weight)
-            print("NORMALIZED THE DAMN WEIGHTS!")
+            sample_weight = (1.0 * sample_weight / np.sum(sample_weight)).astype(np.float32)
+            print("ALL THREADS ARE CREATED EQUAL!")
             s = struct.pack('f' * len(X), *[len(X) * w for w in sample_weight])
         handleWeights.write(s)
         handleWeights.close()
